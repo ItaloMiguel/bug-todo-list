@@ -3,8 +3,8 @@ version: '3.8'
 services:
   django:
     build:
-      context: scripts/dockerfiles
-      dockerfile: Dockerfile.prod
+      context: .
+      dockerfile: scripts/dockerfiles/Dockerfile.prod
     command: gunicorn setup.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/app/django/staticfiles
@@ -43,8 +43,8 @@ services:
 
   nginx:
     build:
-      context: scripts/dockerfiles
-      dockerfile: nginx
+      context: .
+      dockerfile: scripts/dockerfiles/nginx
     volumes:
       - static_volume:/home/app/django/staticfiles
     ports:

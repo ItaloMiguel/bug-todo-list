@@ -82,16 +82,16 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 
 
 # DB RDS DA AMAZON
-# DATABASES = {
-#     "default": {
-#         "ENGINE": str(os.getenv("SQL_ENGINE")),
-#         "NAME": str(os.getenv("SQL_DATABASE")),
-#         "USER": str(os.getenv("SQL_USER")),
-#         "PASSWORD": str(os.getenv("SQL_PASSWORD")),
-#         "HOST": str(os.getenv("SQL_HOST")),
-#         "PORT": str(os.getenv("SQL_PORT")),
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": str(os.getenv("SQL_ENGINE")),
+        "NAME": str(os.getenv("SQL_DATABASE")),
+        "USER": str(os.getenv("SQL_USER")),
+        "PASSWORD": str(os.getenv("SQL_PASSWORD")),
+        "HOST": str(os.getenv("SQL_HOST")),
+        "PORT": str(os.getenv("SQL_PORT")),
+    }
+}
 
 # TESTES NA MÁQUINA
 DATABASES = {
