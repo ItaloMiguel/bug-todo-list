@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  django:
+    build:
+      context: scripts/dockerfiles
+      dockerfile: Dockerfile.prod
+    command: gunicorn setup.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/app/django/staticfiles
+    expose:
+      - 8000
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13.0-alpine
+    container_name: postgresql_container
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_postgres: todolist
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - postgres-network
+    ports:
+      - "5432:5432"
+
+  pg-admin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin4_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "2345:2345"
+    depends_on:
+      - postgres
+    networks:
+      - postgres-network
+
+  nginx:
+    build:
+      context: scripts/dockerfiles
+      dockerfile: nginx
+    volumes:
+      - static_volume:/home/app/django/staticfiles
+    ports:
+      - 80:80
+    depends_on:
+      - django
+      
+volumes:
+  postgres_data:
+  static_volume:
+
+networks:
+  postgres-network:
+    driver: bridge
+
